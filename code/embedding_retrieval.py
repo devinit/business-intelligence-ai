@@ -57,18 +57,19 @@ def run_query(full_text_list, file_embeddings, query, threshold=0.45):
 
     matching_dataset = dataset.filter(lambda example: example['rank'] > threshold)
     if matching_dataset.num_rows == 0:
-        print("I don't know.")
+        return ["I don't know."]
     else:
         sorted_matching_dataset = matching_dataset.sort('rank', reverse=True)
-        for row in sorted_matching_dataset:
-            print(row['rank'], row['text'])
+        return sorted_matching_dataset['text']
 
 
 def main(data_source):
     full_text_list, file_embeddings = load_embeddings(data_source)
     while True:
         query = input("> ")
-        run_query(full_text_list, file_embeddings, query)
+        results = run_query(full_text_list, file_embeddings, query)
+        for result in results:
+            print(result)
 
 
 if __name__ == '__main__':
