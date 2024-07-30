@@ -42,7 +42,7 @@ def load_embeddings(data_source):
     return full_text_list, file_embeddings
 
 
-def run_query(full_text_list, file_embeddings, query, threshold=0.45):
+def run_query(full_text_list, file_embeddings, query, threshold=0.35, debug=False):
     query_embedding = MODEL.encode(query, prompt_name="query")
     ranks = np.zeros(len(file_embeddings))
     for i, embedding in enumerate(file_embeddings):
@@ -60,6 +60,8 @@ def run_query(full_text_list, file_embeddings, query, threshold=0.45):
         return ["I don't know."]
     else:
         sorted_matching_dataset = matching_dataset.sort('rank', reverse=True)
+        if debug:
+            return sorted_matching_dataset['rank'], sorted_matching_dataset['text']
         return sorted_matching_dataset['text']
 
 
