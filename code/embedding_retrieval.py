@@ -26,7 +26,7 @@ def load_embeddings(data_source):
 
     full_text_list = list()
     for txt_file_path in tqdm(txt_files):
-        with open(txt_file_path, 'r') as txt_file:
+        with open(txt_file_path, 'r', encoding='utf-8') as txt_file:
             full_text_list.append(txt_file.read())
 
     if os.path.exists(pickle_path):
